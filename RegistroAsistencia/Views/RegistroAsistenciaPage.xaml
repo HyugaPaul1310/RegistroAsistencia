@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RegistroAsistencia.ViewModels"
+             x:Class="RegistroAsistencia.Views.RegistroAsistenciaPage"
+             BackgroundColor="{DynamicResource PageBackgroundColor}"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.BindingContext>
+        <vm:RegistroAsistenciaViewModel />
+    </ContentPage.BindingContext>
+
+    <!-- 🔹 Estilos globales -->
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="TextColor" Value="{DynamicResource PrimaryTextColor}" />
+            <Setter Property="FontFamily" Value="OpenSansRegular" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+        </Style>
+
+        <!-- Botón principal -->
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{DynamicResource PrimaryColor}" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontFamily" Value="OpenSansSemiBold" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="HeightRequest" Value="55" />
+            <Setter Property="Margin" Value="{OnIdiom Phone='10,6', Tablet='20,10'}" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <Shadow Brush="Black" Opacity="0.15" Radius="8" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botón secundario -->
+        <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="BackgroundColor" Value="{DynamicResource SecondaryColor}" />
+        </Style>
+
+        <!-- Botón terciario -->
+        <Style x:Key="TertiaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="BackgroundColor" Value="{DynamicResource TertiaryColor}" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="HeightRequest" Value="50" />
+        </Style>
+    </ContentPage.Resources>
+
+    <!-- 🔹 Layout principal -->
+    <Grid>
+        <ScrollView VerticalOptions="FillAndExpand">
+            <VerticalStackLayout
+                Spacing="35"
+                Padding="20,100"
+                VerticalOptions="Start"
+                HorizontalOptions="Center"
+                WidthRequest="{OnIdiom Phone=340, Tablet=450, Desktop=500, Default=400}">
+
+                <!-- 🔸 Encabezado -->
+                <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+                    <Image Source="comision.png"
+                           HeightRequest="90"
+                           WidthRequest="200"
+                           Aspect="AspectFit"
+                           HorizontalOptions="Center" />
+
+                    <Label Text="COMISIÓN NACIONAL DEL AGUA"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource PrimaryColor}" />
+
+                    <Label Text="Registro de Asistencia"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource SecondaryTextColor}"
+                           Margin="0,8,0,0" />
+                </VerticalStackLayout>
+
+                <!-- 🔸 Botones principales -->
+                <VerticalStackLayout Spacing="25" Padding="30">
+                    <Button Text="Registrar Entrada"
+                    Command="{Binding RegistrarEntradaCommand}"
+                    Style="{StaticResource PrimaryButtonStyle}" />
+
+                    <Button Text="Registrar Salida"
+                    Command="{Binding RegistrarSalidaCommand}"
+                    Style="{StaticResource SecondaryButtonStyle}" />
+
+                    <Button Text="Panel Admin"
+                    Clicked="OnPanelAdminClicked"
+                    BackgroundColor="{DynamicResource TertiaryColor}"
+                    TextColor="White"
+                    FontSize="16"
+                    FontFamily="OpenSansRegular"
+                    CornerRadius="8"
+                    HeightRequest="45"
+                    Margin="0,20,0,0" />
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

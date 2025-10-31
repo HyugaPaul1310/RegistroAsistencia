@@ -1,0 +1,116 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RegistroAsistencia.Views.AdminPanelPage"
+             xmlns:vm="clr-namespace:RegistroAsistencia.ViewModels"
+             Shell.NavBarIsVisible="False"
+             Title="Panel de Administración"
+             BackgroundColor="#F8F9FA"
+             x:Name="AdminPanelRoot">
+
+    <ContentPage.BindingContext>
+        <vm:AdminPanelViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="28">
+
+            <Label Text="Panel de Administración"
+                   FontSize="28" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" />
+
+            <Label Text="Gestiona registros, consulta estadísticas y administra establecimientos."
+                   FontSize="16" TextColor="Black" HorizontalOptions="Center" />
+
+            <Frame Padding="15" CornerRadius="16" BackgroundColor="#F2F2F2" HasShadow="True">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Filtros" FontAttributes="Bold" FontSize="16" TextColor="Black" VerticalOptions="Center" />
+                    <HorizontalStackLayout Spacing="20" HorizontalOptions="CenterAndExpand" VerticalOptions="Center">
+                        <DatePicker Date="{Binding FechaInicio}" TextColor="Black" WidthRequest="140"/>
+                        <DatePicker Date="{Binding FechaFin}" TextColor="Black" WidthRequest="140"/>
+
+                        
+                        <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                            <Label Text="Establecimiento" TextColor="Black" FontSize="14" HorizontalOptions="Center"/>
+                            <Picker
+                            ItemsSource="{Binding ListaEstablecimientos}"
+                            SelectedItem="{Binding EstablecimientoSeleccionado}"
+                            TextColor="Black"
+                            WidthRequest="120"
+                            HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+
+                        <Button Text="Filtrar" BackgroundColor="#1E6FA8" TextColor="Black" CornerRadius="10"
+                    Command="{Binding FiltrarCommand}" WidthRequest="90" HeightRequest="48"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <Frame Padding="15" CornerRadius="16" BackgroundColor="#938d6b" HasShadow="True">
+                <HorizontalStackLayout Spacing="30" HorizontalOptions="Center">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Total Asistencias" FontSize="14" TextColor="Black"/>
+                        <Label Text="{Binding TotalAsistencias}" FontSize="22" FontAttributes="Bold" TextColor="Black"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Entradas Hoy" FontSize="14" TextColor="Black"/>
+                        <Label Text="{Binding EntradasHoy}" FontSize="22" FontAttributes="Bold" TextColor="Black"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Salidas Hoy" FontSize="14" TextColor="Black"/>
+                        <Label Text="{Binding SalidasHoy}" FontSize="22" FontAttributes="Bold" TextColor="Black"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </Frame>
+
+            <Label Text="Registros de Asistencia" FontAttributes="Bold" FontSize="18" TextColor="Black" />
+
+            <Frame Padding="0" CornerRadius="16" BackgroundColor="White" HasShadow="True" HeightRequest="400">
+                <VerticalStackLayout>
+                    <!-- Encabezados -->
+                    <Grid ColumnDefinitions="2*,*,*,*,*,Auto" Padding="10,0,10,5">
+                        <Label Text="Fecha" FontAttributes="Bold" TextColor="Black" />
+                        <Label Text="Tipo" FontAttributes="Bold" TextColor="Black" Grid.Column="1"/>
+                        <Label Text="Establecimiento" FontAttributes="Bold" TextColor="Black" Grid.Column="2"/>
+                        <Label Text="Latitud" FontAttributes="Bold" TextColor="Black" Grid.Column="3"/>
+                        <Label Text="Longitud" FontAttributes="Bold" TextColor="Black" Grid.Column="4"/>
+                        <Label Text="Foto" FontAttributes="Bold" TextColor="Black" Grid.Column="5"/>
+                    </Grid>
+                    <!-- Registros dinámicos -->
+                    <CollectionView ItemsSource="{Binding RegistrosAsistencia}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="2*,*,*,*,*,Auto" Padding="10,0,10,5">
+                                    <Label Text="{Binding Fecha, StringFormat='{0:dd/MM/yyyy HH:mm}'}" TextColor="Black"/>
+                                    <Label Text="{Binding Tipo}" Grid.Column="1" TextColor="Black"/>
+                                    <Label Text="{Binding EstablecimientoId}" Grid.Column="2" TextColor="Black"/>
+                                    <Label Text="{Binding Latitud}" Grid.Column="3" TextColor="Black"/>
+                                    <Label Text="{Binding Longitud}" Grid.Column="4" TextColor="Black"/>
+                                    <Button Text="Ver Foto"
+                                            Grid.Column="5"
+                                            BackgroundColor="#1E6FA8"
+                                            TextColor="White"
+                                            CornerRadius="8"
+                                            Command="{Binding BindingContext.VerFotoCommand, Source={x:Reference AdminPanelRoot}}"
+                                            CommandParameter="{Binding FotoPath}" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                <Button Text="Exportar a Excel" BackgroundColor="#751805" TextColor="White" CornerRadius="10" HeightRequest="48"
+                        Command="{Binding ExportarCommand}"/>
+               
+                <Button Text="Ir a Registro de Asistencia"
+                        BackgroundColor="#1E6FA8"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="48"
+                        Clicked="OnGoToRegistroAsistenciaClicked"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
